@@ -1,0 +1,645 @@
+/* Import Pixel Font */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+/* Particle Canvas */
+#particleCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.7;
+}
+
+/* Pixel Font Class */
+.pixel-font {
+    font-family: 'Press Start 2P', monospace;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+    text-shadow: 
+        0 0 5px currentColor,
+        0 0 10px currentColor,
+        0 0 15px currentColor,
+        0 0 20px currentColor;
+    animation: neon-pulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes neon-pulse {
+    from {
+        text-shadow: 
+            0 0 5px currentColor,
+            0 0 10px currentColor,
+            0 0 15px currentColor,
+            0 0 20px currentColor;
+    }
+    to {
+        text-shadow: 
+            0 0 2px currentColor,
+            0 0 5px currentColor,
+            0 0 10px currentColor,
+            0 0 15px currentColor,
+            0 0 25px currentColor;
+    }
+}
+
+/* Pixel Box Effect */
+.pixel-box {
+    border-radius: 0;
+    position: relative;
+    image-rendering: pixelated;
+    box-shadow: 
+        0 0 10px rgba(16, 185, 129, 0.3),
+        inset 0 0 10px rgba(16, 185, 129, 0.1);
+    transition: all 0.3s ease;
+}
+
+.pixel-box:hover {
+    box-shadow: 
+        0 0 20px rgba(16, 185, 129, 0.5),
+        0 0 30px rgba(16, 185, 129, 0.3),
+        inset 0 0 15px rgba(16, 185, 129, 0.2);
+    transform: translateY(-2px);
+}
+
+.pixel-box::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: inherit;
+    z-index: -1;
+    border-radius: 0;
+}
+
+/* Pixel Button */
+.pixel-button {
+    border-radius: 0;
+    position: relative;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    image-rendering: pixelated;
+    text-shadow: 
+        0 0 5px currentColor,
+        0 0 10px currentColor;
+    box-shadow: 
+        0 0 10px rgba(59, 130, 246, 0.3),
+        0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.pixel-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 
+        0 0 20px rgba(59, 130, 246, 0.6),
+        0 0 30px rgba(59, 130, 246, 0.4),
+        0 6px 20px rgba(0, 0, 0, 0.4);
+    text-shadow: 
+        0 0 8px currentColor,
+        0 0 15px currentColor,
+        0 0 25px currentColor;
+}
+
+.pixel-button:active {
+    transform: translateY(-1px);
+    box-shadow: 
+        0 0 15px rgba(59, 130, 246, 0.5),
+        0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Pixel Input */
+.pixel-input {
+    border-radius: 0;
+    transition: all 0.3s ease;
+    font-family: 'Courier New', monospace;
+    image-rendering: pixelated;
+    box-shadow: 
+        inset 0 0 10px rgba(0, 0, 0, 0.5),
+        0 0 5px rgba(34, 211, 238, 0.3);
+}
+
+.pixel-input:focus {
+    outline: none;
+    box-shadow: 
+        inset 0 0 10px rgba(0, 0, 0, 0.5),
+        0 0 15px rgba(34, 211, 238, 0.6),
+        0 0 25px rgba(34, 211, 238, 0.4),
+        0 0 35px rgba(34, 211, 238, 0.2);
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+}
+
+/* Filter Buttons */
+.filter-btn {
+    @apply bg-gray-700 hover:bg-gray-600 text-white font-bold p-2 border-2 border-gray-500 transition-all duration-200 text-sm;
+    border-radius: 0;
+}
+
+.filter-btn.active {
+    @apply bg-purple-600 border-purple-400 text-purple-100;
+}
+
+.filter-btn:hover {
+    transform: translateY(-1px);
+}
+
+/* Task Card */
+.task-card {
+    @apply bg-gray-800 border-2 p-4 transition-all duration-300;
+    border-radius: 0;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 
+        0 0 10px rgba(59, 130, 246, 0.2),
+        inset 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.task-card.completed {
+    @apply border-green-400 bg-green-900 bg-opacity-30;
+    box-shadow: 
+        0 0 15px rgba(16, 185, 129, 0.4),
+        inset 0 0 10px rgba(16, 185, 129, 0.1);
+}
+
+.task-card.pending {
+    @apply border-blue-400;
+    box-shadow: 
+        0 0 10px rgba(59, 130, 246, 0.3),
+        inset 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.task-card.high-priority {
+    @apply border-red-400;
+    animation: pulse-glow 2s infinite;
+    box-shadow: 
+        0 0 20px rgba(239, 68, 68, 0.5),
+        0 0 30px rgba(239, 68, 68, 0.3),
+        inset 0 0 15px rgba(239, 68, 68, 0.1);
+}
+
+.task-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 
+        0 0 25px rgba(59, 130, 246, 0.4),
+        0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+/* Priority Badges */
+.priority-badge {
+    @apply inline-block px-2 py-1 text-xs font-bold border-2;
+    border-radius: 0;
+    text-shadow: 0 0 5px currentColor;
+    box-shadow: 
+        0 0 10px currentColor,
+        inset 0 0 5px rgba(255, 255, 255, 0.1);
+    animation: priority-glow 3s ease-in-out infinite alternate;
+}
+
+@keyframes priority-glow {
+    from {
+        box-shadow: 
+            0 0 5px currentColor,
+            inset 0 0 5px rgba(255, 255, 255, 0.1);
+    }
+    to {
+        box-shadow: 
+            0 0 15px currentColor,
+            0 0 25px currentColor,
+            inset 0 0 10px rgba(255, 255, 255, 0.2);
+    }
+}
+
+.priority-1 {
+    @apply bg-green-600 border-green-400 text-green-100;
+}
+
+.priority-2 {
+    @apply bg-blue-600 border-blue-400 text-blue-100;
+}
+
+.priority-3 {
+    @apply bg-yellow-600 border-yellow-400 text-yellow-100;
+}
+
+.priority-4 {
+    @apply bg-orange-600 border-orange-400 text-orange-100;
+    animation: priority-epic 2s ease-in-out infinite alternate;
+}
+
+@keyframes priority-epic {
+    from {
+        box-shadow: 
+            0 0 10px #fb923c,
+            inset 0 0 5px rgba(255, 255, 255, 0.1);
+    }
+    to {
+        box-shadow: 
+            0 0 20px #fb923c,
+            0 0 30px #fb923c,
+            inset 0 0 15px rgba(255, 255, 255, 0.3);
+    }
+}
+
+.priority-5 {
+    @apply bg-red-600 border-red-400 text-red-100;
+    animation: priority-legendary 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes priority-legendary {
+    from {
+        box-shadow: 
+            0 0 15px #ef4444,
+            0 0 25px #ef4444,
+            inset 0 0 10px rgba(255, 255, 255, 0.2);
+    }
+    to {
+        box-shadow: 
+            0 0 25px #ef4444,
+            0 0 35px #ef4444,
+            0 0 45px #ef4444,
+            inset 0 0 20px rgba(255, 255, 255, 0.4);
+    }
+}
+
+/* Loading Animation */
+.pixel-loader {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #374151;
+    border-top: 4px solid #10b981;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Pulse Glow Animation */
+@keyframes pulse-glow {
+    0%, 100% {
+        box-shadow: 0 0 5px rgba(239, 68, 68, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(239, 68, 68, 0.8);
+    }
+}
+
+/* Message Notifications */
+.message {
+    @apply p-3 border-2 font-bold text-sm;
+    border-radius: 0;
+    animation: slideIn 0.3s ease-out;
+    min-width: 300px;
+}
+
+.message.success {
+    @apply bg-green-600 border-green-400 text-green-100;
+}
+
+.message.error {
+    @apply bg-red-600 border-red-400 text-red-100;
+}
+
+.message.info {
+    @apply bg-blue-600 border-blue-400 text-blue-100;
+}
+
+.message.warning {
+    @apply bg-yellow-600 border-yellow-400 text-yellow-100;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* Progress Bar */
+.progress-bar {
+    @apply bg-gray-700 h-4 relative overflow-hidden;
+    border-radius: 0;
+    border: 2px solid #4b5563;
+}
+
+.progress-fill {
+    @apply h-full bg-gradient-to-r from-green-400 to-blue-400 transition-all duration-500;
+    border-radius: 0;
+    position: relative;
+}
+
+.progress-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* Checkbox Styling */
+.pixel-checkbox {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #9ca3af;
+    background: #374151;
+    cursor: pointer;
+    position: relative;
+}
+
+.pixel-checkbox:checked {
+    background: #10b981;
+    border-color: #10b981;
+}
+
+.pixel-checkbox:checked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+/* Action Buttons */
+.action-btn {
+    @apply p-2 border-2 font-bold text-xs transition-all duration-200;
+    border-radius: 0;
+    min-width: 80px;
+}
+
+.action-btn:hover {
+    transform: translateY(-1px);
+}
+
+.btn-complete {
+    @apply bg-green-600 hover:bg-green-500 border-green-400 text-green-100;
+}
+
+.btn-edit {
+    @apply bg-blue-600 hover:bg-blue-500 border-blue-400 text-blue-100;
+}
+
+.btn-delete {
+    @apply bg-red-600 hover:bg-red-500 border-red-400 text-red-100;
+}
+
+.btn-view {
+    @apply bg-purple-600 hover:bg-purple-500 border-purple-400 text-purple-100;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .pixel-font {
+        font-size: 0.8rem;
+    }
+    
+    .task-card {
+        padding: 0.75rem;
+    }
+    
+    .action-btn {
+        padding: 0.5rem;
+        min-width: 60px;
+        font-size: 10px;
+    }
+    
+    .priority-badge {
+        font-size: 10px;
+        padding: 0.25rem 0.5rem;
+    }
+}
+
+/* Scroll Bar Styling */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #374151;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #6b7280;
+    border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #9ca3af;
+}
+
+/* Task Status Indicators */
+.status-indicator {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+}
+
+.status-completed {
+    border-width: 0 20px 20px 0;
+    border-color: transparent #10b981 transparent transparent;
+}
+
+.status-pending {
+    border-width: 0 20px 20px 0;
+    border-color: transparent #3b82f6 transparent transparent;
+}
+
+.status-overdue {
+    border-width: 0 20px 20px 0;
+    border-color: transparent #ef4444 transparent transparent;
+}
+
+/* Gaming-themed decorations */
+.task-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        #10b981 25%, 
+        #3b82f6 50%, 
+        #8b5cf6 75%, 
+        transparent 100%
+    );
+    animation: scan-line 3s linear infinite;
+    box-shadow: 0 0 10px currentColor;
+}
+
+@keyframes scan-line {
+    0% {
+        background-position: -100% 0;
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        background-position: 100% 0;
+        opacity: 0.5;
+    }
+}
+
+/* Enhanced Glitch effect for high priority tasks */
+.task-card.priority-5 {
+    animation: glitch 0.3s infinite alternate, neon-flicker 2s infinite;
+}
+
+@keyframes glitch {
+    0% {
+        text-shadow: 
+            0.05em 0 0 #ff0000, 
+            -0.05em -0.025em 0 #00ff00, 
+            0.025em 0.05em 0 #0000ff;
+        filter: hue-rotate(0deg);
+    }
+    15% {
+        text-shadow: 
+            0.05em 0 0 #ff0000, 
+            -0.05em -0.025em 0 #00ff00, 
+            0.025em 0.05em 0 #0000ff;
+    }
+    16% {
+        text-shadow: 
+            -0.05em -0.025em 0 #ff0000, 
+            0.025em 0.025em 0 #00ff00, 
+            -0.05em -0.05em 0 #0000ff;
+    }
+    49% {
+        text-shadow: 
+            -0.05em -0.025em 0 #ff0000, 
+            0.025em 0.025em 0 #00ff00, 
+            -0.05em -0.05em 0 #0000ff;
+    }
+    50% {
+        text-shadow: 
+            0.025em 0.05em 0 #ff0000, 
+            0.05em 0 0 #00ff00, 
+            0 -0.05em 0 #0000ff;
+        filter: hue-rotate(90deg);
+    }
+    99% {
+        text-shadow: 
+            0.025em 0.05em 0 #ff0000, 
+            0.05em 0 0 #00ff00, 
+            0 -0.05em 0 #0000ff;
+    }
+    100% {
+        text-shadow: 
+            -0.025em 0 0 #ff0000, 
+            -0.025em -0.025em 0 #00ff00, 
+            -0.025em -0.05em 0 #0000ff;
+        filter: hue-rotate(180deg);
+    }
+}
+
+@keyframes neon-flicker {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        box-shadow: 
+            0 0 20px #ef4444,
+            0 0 30px #ef4444,
+            0 0 40px #ef4444,
+            inset 0 0 15px rgba(239, 68, 68, 0.1);
+    }
+    20%, 24%, 55% {
+        box-shadow: 
+            0 0 5px #ef4444,
+            inset 0 0 5px rgba(239, 68, 68, 0.1);
+    }
+}
+
+/* Header neon enhancement */
+header h1 {
+    text-shadow: 
+        0 0 5px #facc15,
+        0 0 10px #facc15,
+        0 0 15px #facc15,
+        0 0 20px #facc15,
+        0 0 35px #facc15,
+        0 0 40px #facc15;
+    animation: header-glow 4s ease-in-out infinite alternate;
+}
+
+@keyframes header-glow {
+    from {
+        text-shadow: 
+            0 0 5px #facc15,
+            0 0 10px #facc15,
+            0 0 15px #facc15,
+            0 0 20px #facc15;
+    }
+    to {
+        text-shadow: 
+            0 0 10px #facc15,
+            0 0 20px #facc15,
+            0 0 25px #facc15,
+            0 0 35px #facc15,
+            0 0 40px #facc15,
+            0 0 50px #facc15;
+    }
+}
+
+/* Loading screen enhancement */
+.pixel-loader {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #374151;
+    border-top: 4px solid #10b981;
+    animation: spin 1s linear infinite, loader-glow 2s ease-in-out infinite alternate;
+    margin: 0 auto;
+    box-shadow: 
+        0 0 20px rgba(16, 185, 129, 0.5),
+        inset 0 0 20px rgba(16, 185, 129, 0.1);
+}
+
+@keyframes loader-glow {
+    from {
+        box-shadow: 
+            0 0 10px rgba(16, 185, 129, 0.3),
+            inset 0 0 10px rgba(16, 185, 129, 0.1);
+    }
+    to {
+        box-shadow: 
+            0 0 30px rgba(16, 185, 129, 0.7),
+            0 0 40px rgba(16, 185, 129, 0.5),
+            inset 0 0 20px rgba(16, 185, 129, 0.2);
+    }
+}

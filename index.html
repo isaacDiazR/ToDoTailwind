@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDo con tailwind</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gray-900 min-h-screen font-mono">
+    <!-- Particle System Canvas -->
+    <canvas id="particleCanvas" class="fixed inset-0 pointer-events-none z-10"></canvas>
+    
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-purple-800 to-blue-800 p-4 border-b-4 border-yellow-400" style="box-shadow: 0 0 20px rgba(59, 130, 246, 0.3), 0 0 40px rgba(139, 92, 246, 0.2);">
+        <div class="container mx-auto">
+            <h1 class="text-2xl md:text-4xl font-bold text-yellow-400 text-center pixel-font">
+                🎮 TODO TAILWIND 🎮
+            </h1>
+            <p class="text-center text-green-400 mt-2 text-sm md:text-base" style="text-shadow: 0 0 10px #10b981;">
+                ¡Completa tus misiones y conquista el día!
+            </p>
+        </div>
+    </header>
+
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="fixed inset-0 bg-gray-900 flex items-center justify-center z-50" style="background: radial-gradient(circle, rgba(16,185,129,0.1) 0%, rgba(17,24,39,1) 70%);">
+        <div class="text-center">
+            <div class="pixel-loader mb-4"></div>
+            <p class="text-green-400 pixel-font text-xl" style="text-shadow: 0 0 15px #10b981, 0 0 25px #10b981;">
+                CARGANDO MISIONES...
+            </p>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container mx-auto p-4 max-w-6xl">
+        <!-- Stats Bar -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+            <div class="bg-gray-800 border-2 border-green-400 p-3 pixel-box">
+                <div class="text-green-400 text-xs">TOTAL QUESTS</div>
+                <div id="totalTasks" class="text-white text-xl font-bold">0</div>
+            </div>
+            <div class="bg-gray-800 border-2 border-blue-400 p-3 pixel-box">
+                <div class="text-blue-400 text-xs">COMPLETADAS</div>
+                <div id="completedTasks" class="text-white text-xl font-bold">0</div>
+            </div>
+            <div class="bg-gray-800 border-2 border-yellow-400 p-3 pixel-box">
+                <div class="text-yellow-400 text-xs">PENDIENTES</div>
+                <div id="pendingTasks" class="text-white text-xl font-bold">0</div>
+            </div>
+            <div class="bg-gray-800 border-2 border-red-400 p-3 pixel-box">
+                <div class="text-red-400 text-xs">PROGRESO</div>
+                <div id="progressPercent" class="text-white text-xl font-bold">0%</div>
+            </div>
+        </div>
+
+        <!-- Add Task Form -->
+        <div class="bg-gray-800 border-2 border-yellow-400 p-4 mb-6 pixel-box" style="box-shadow: 0 0 15px rgba(250, 204, 21, 0.3), inset 0 0 15px rgba(0, 0, 0, 0.3);">
+            <h2 class="text-yellow-400 font-bold mb-4 flex items-center" style="text-shadow: 0 0 10px #facc15;">
+                <span class="mr-2">⚔️</span>
+                NUEVA MISIÓN
+            </h2>
+            <form id="taskForm" class="space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-green-400 text-sm mb-2">🎯 Título de la Misión</label>
+                        <input 
+                            type="text" 
+                            id="taskTitle" 
+                            required
+                            class="w-full p-2 bg-gray-700 border-2 border-gray-600 text-white focus:border-cyan-400 pixel-input"
+                            placeholder="Ej: Derrotar al jefe final..."
+                        >
+                    </div>
+                    <div>
+                        <label class="block text-green-400 text-sm mb-2">⭐ Prioridad</label>
+                        <select id="taskPriority" class="w-full p-2 bg-gray-700 border-2 border-gray-600 text-white focus:border-cyan-400 pixel-input">
+                            <option value="1">⭐ Fácil</option>
+                            <option value="2">⭐⭐ Normal</option>
+                            <option value="3">⭐⭐⭐ Difícil</option>
+                            <option value="4">💀 Épica</option>
+                            <option value="5">👑 Legendaria</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-green-400 text-sm mb-2">📝 Descripción de la Misión</label>
+                    <textarea 
+                        id="taskDescription" 
+                        rows="3"
+                        class="w-full p-2 bg-gray-700 border-2 border-gray-600 text-white focus:border-cyan-400 pixel-input"
+                        placeholder="Describe los objetivos de esta misión..."
+                    ></textarea>
+                </div>
+                <div>
+                    <label class="block text-green-400 text-sm mb-2">📅 Fecha Límite (Opcional)</label>
+                    <input 
+                        type="datetime-local" 
+                        id="taskDueDate"
+                        class="w-full p-2 bg-gray-700 border-2 border-gray-600 text-white focus:border-cyan-400 pixel-input"
+                    >
+                </div>
+                <div class="flex flex-col sm:flex-row gap-2">
+                    <button 
+                        type="submit" 
+                        id="submitBtn"
+                        class="flex-1 bg-green-600 hover:bg-green-500 text-white font-bold p-3 border-2 border-green-400 pixel-button transition-colors"
+                    >
+                        🚀 CREAR MISIÓN
+                    </button>
+                    <button 
+                        type="button" 
+                        id="cancelBtn"
+                        class="flex-1 bg-gray-600 hover:bg-gray-500 text-white font-bold p-3 border-2 border-gray-400 pixel-button transition-colors hidden"
+                    >
+                        ❌ CANCELAR
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Filters -->
+        <div class="bg-gray-800 border-2 border-purple-400 p-4 mb-6 pixel-box" style="box-shadow: 0 0 15px rgba(139, 92, 246, 0.3), inset 0 0 15px rgba(0, 0, 0, 0.3);">
+            <h3 class="text-purple-400 font-bold mb-3" style="text-shadow: 0 0 10px #8b5cf6;">🔍 FILTROS</h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+                <button class="filter-btn active" data-filter="all">
+                    🌟 TODAS
+                </button>
+                <button class="filter-btn" data-filter="pending">
+                    ⏳ PENDIENTES
+                </button>
+                <button class="filter-btn" data-filter="completed">
+                    ✅ COMPLETADAS
+                </button>
+                <button class="filter-btn" data-filter="high-priority">
+                    🔥 ALTA PRIORIDAD
+                </button>
+            </div>
+        </div>
+
+        <!-- Tasks List -->
+        <div id="tasksList" class="space-y-4">
+            <!-- Tasks will be rendered here -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="text-center py-12 hidden">
+            <div class="text-6xl mb-4">🎮</div>
+            <h3 class="text-gray-400 text-xl mb-2">¡No hay misiones disponibles!</h3>
+            <p class="text-gray-500">Crea tu primera misión para comenzar tu aventura.</p>
+        </div>
+    </div>
+
+    <!-- Success/Error Messages -->
+    <div id="messageContainer" class="fixed top-4 right-4 z-40 space-y-2">
+        <!-- Messages will appear here -->
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="editModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
+        <div class="bg-gray-800 border-4 border-yellow-400 p-6 max-w-md w-full mx-4 pixel-box">
+            <h3 class="text-yellow-400 font-bold mb-4 text-center">
+                ⚡ EDITAR MISIÓN ⚡
+            </h3>
+            <form id="editForm" class="space-y-4">
+                <div>
+                    <label class="block text-green-400 text-sm mb-2">🎯 Título</label>
+                    <input 
+                        type="text" 
+                        id="editTitle" 
+                        required
+                        class="w-full p-2 bg-gray-700 border-2 border-gray-600 text-white focus:border-cyan-400 pixel-input"
+                    >
+                </div>
+                <div>
+                    <label class="block text-green-400 text-sm mb-2">📝 Descripción</label>
+                    <textarea 
+                        id="editDescription" 
+                        rows="3"
+                        class="w-full p-2 bg-gray-700 border-2 border-gray-600 text-white focus:border-cyan-400 pixel-input"
+                    ></textarea>
+                </div>
+                <div>
+                    <label class="block text-green-400 text-sm mb-2">⭐ Prioridad</label>
+                    <select id="editPriority" class="w-full p-2 bg-gray-700 border-2 border-gray-600 text-white focus:border-cyan-400 pixel-input">
+                        <option value="1">⭐ Fácil</option>
+                        <option value="2">⭐⭐ Normal</option>
+                        <option value="3">⭐⭐⭐ Difícil</option>
+                        <option value="4">💀 Épica</option>
+                        <option value="5">👑 Legendaria</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-green-400 text-sm mb-2">📅 Fecha Límite</label>
+                    <input 
+                        type="datetime-local" 
+                        id="editDueDate"
+                        class="w-full p-2 bg-gray-700 border-2 border-gray-600 text-white focus:border-cyan-400 pixel-input"
+                    >
+                </div>
+                <div class="flex gap-2">
+                    <button 
+                        type="submit" 
+                        class="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-bold p-3 border-2 border-blue-400 pixel-button"
+                    >
+                        💾 GUARDAR
+                    </button>
+                    <button 
+                        type="button" 
+                        id="closeEditModal"
+                        class="flex-1 bg-gray-600 hover:bg-gray-500 text-white font-bold p-3 border-2 border-gray-400 pixel-button"
+                    >
+                        ❌ CANCELAR
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
+        <div class="bg-gray-800 border-4 border-red-400 p-6 max-w-md w-full mx-4 pixel-box">
+            <h3 class="text-red-400 font-bold mb-4 text-center">
+                💀 ELIMINAR MISIÓN 💀
+            </h3>
+            <p class="text-white text-center mb-6">
+                ¿Estás seguro de que quieres eliminar esta misión? Esta acción no se puede deshacer.
+            </p>
+            <div class="flex gap-2">
+                <button 
+                    id="confirmDelete"
+                    class="flex-1 bg-red-600 hover:bg-red-500 text-white font-bold p-3 border-2 border-red-400 pixel-button"
+                >
+                    🗑️ ELIMINAR
+                </button>
+                <button 
+                    id="cancelDelete"
+                    class="flex-1 bg-gray-600 hover:bg-gray-500 text-white font-bold p-3 border-2 border-gray-400 pixel-button"
+                >
+                    ❌ CANCELAR
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
